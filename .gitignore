@@ -1,0 +1,11 @@
+# Gradle builds into a 'build' directory
+build
+
+# Gradle also uses a .gradle directory for gradle state info
+.gradle
+
+# Ideas files
+.idea
+
+# 'Cause I emacs a bit
+*~
