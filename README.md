@@ -58,35 +58,34 @@ You can also turn off either the anything or single character matching by using
 
 ### JMH Run Results
 
-Larger scores are better as they indicate more throughput per second.
+Larger scores are better as they indicate more throughput per second.  For both the globWords and
+globLogLines benchmarks the glob pattern has been written specifically to prevent the Glob 
+library from using an optimization.
 
 ```
-Benchmark                                                            Mode  Cnt         Score        Error   Units
-Benchmark1.globWords                                                thrpt   10        19.460 ±      0.967   ops/s
-Benchmark1.greedyRegexWords                                         thrpt   10        12.609 ±      0.339   ops/s
-Benchmark1.nonGreedyRegexWords                                      thrpt   10        13.291 ±      0.303   ops/s
+Benchmark                                             Mode  Cnt         Score        Error   Units
+Benchmark1.globWords                                 thrpt   10        19.460 ±      0.967   ops/s
+Benchmark1.greedyRegexWords                          thrpt   10        12.609 ±      0.339   ops/s
+Benchmark1.nonGreedyRegexWords                       thrpt   10        13.291 ±      0.303   ops/s
 ```
 
 For the words file the glob-library is 1.5x faster than both greedy and non-greedy regex.
 
 ```
-Benchmark                                                            Mode  Cnt         Score        Error   Units
-Benchmark1.globLogLines                                             thrpt   10        10.707 ±      0.204   ops/s
-Benchmark1.greedyRegexLogLines                                      thrpt   10         8.598 ±      0.247   ops/s
-Benchmark1.nonGreedyRegexLogLines                                   thrpt   10         8.409 ±      0.162   ops/s
+Benchmark                                             Mode  Cnt         Score        Error   Units
+Benchmark1.globLogLines                              thrpt   10        10.707 ±      0.204   ops/s
+Benchmark1.greedyRegexLogLines                       thrpt   10         8.598 ±      0.247   ops/s
+Benchmark1.nonGreedyRegexLogLines                    thrpt   10         8.409 ±      0.162   ops/s
 ```
 
 For the longer log lines the glob-library is still faster, but not by as much.
 
-For both of these tests the glob expressions have been written specifically to prevent the Glob library from using
-an optimization.
-
 ```
-Benchmark                                                            Mode  Cnt         Score        Error   Units
-Benchmark1.globCompare                                              thrpt   10       179.345 ±      3.151   ops/s
-Benchmark1.globCompareCaseInsensitive                               thrpt   10       169.957 ±     23.889   ops/s
-Benchmark1.stringCompare                                            thrpt   10       211.104 ±      3.435   ops/s
-Benchmark1.stringCompareCaseInsensitive                             thrpt   10       126.214 ±      5.041   ops/s
+Benchmark                                             Mode  Cnt         Score        Error   Units
+Benchmark1.globCompare                               thrpt   10       179.345 ±      3.151   ops/s
+Benchmark1.globCompareCaseInsensitive                thrpt   10       169.957 ±     23.889   ops/s
+Benchmark1.stringCompare                             thrpt   10       211.104 ±      3.435   ops/s
+Benchmark1.stringCompareCaseInsensitive              thrpt   10       126.214 ±      5.041   ops/s
 ```
 
 For basic comparision the glob-library is a bit slower than a String.equals and a bit faster for a 
