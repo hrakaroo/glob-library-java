@@ -13,7 +13,7 @@ match-zero-or-more character and a long string of non-matching text as, in greed
 the engine will do a lot of work to figure out that the pattern does not match.
 
 This library is a direct implementation of a glob matcher and strives to be both safer 
-and faster and rewriting the pattern as a regular expression.
+and faster than rewriting the pattern as a regular expression.
 
 ### What is a glob?
 
