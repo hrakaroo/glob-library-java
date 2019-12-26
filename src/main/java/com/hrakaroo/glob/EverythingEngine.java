@@ -1,7 +1,7 @@
 package com.hrakaroo.glob;
 
 /**
- * This is a shortcut for when the user enters '%' (where % is the wildcard symbol) as the pattern as this
+ * This is a shortcut for when the user enters '%' (where % is the wildcard symbol) as the pattern. This
  * matches everything except a null input string.
  *
  *  @author Joshua Gerth

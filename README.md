@@ -1,36 +1,43 @@
-# glob-library
+# glob-library-java
 
-Library for glob searching in strings.
+Glob style pattern matcher for strings in Java.
 
 ## Why
 
 Most implementations for glob searching try to rewrite the glob as a regular expression.
-Although rewriting as a regular expression is _possible_ this library strives to be both,
-safer and faster.
+Although rewriting as a regular expression is _possible_, it is not trivial to get it
+correct as special care needs to be taken to escape any accidental regular expression 
+commands (including any contained \Q and \E commands).  In addition, most regular
+expression engines can easily get tripped up if the user enters a repeating 
+match-zero-or-more character and a long string of non-matching text as, in greedy mode, 
+the engine will do a lot of work to figure out that the pattern does not match.
+
+This library is a direct implementation of a glob matcher and strives to be both safer 
+and faster and rewriting the pattern as a regular expression.
 
 ### What is a glob?
 
 A glob is a very basic type of pattern matching where you use a single
 character to say "match anything or nothing".  The Unix command line
 supports this by using a `*` and SQL uses a `%`.  Single character 
-matches are also supported using '?' and '_' respectively.  Glob patterns
+matches are also supported using `?` and `_` respectively.  Glob patterns
 are no where near as expressive as expressive as full regular expressions.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Glob_(programming)) has more information.
 
-## Features
+## Key Features
 
-- Multiple glob patterns are folded into one during compile time.  
-- Escaping glob patterns works as expected.  
-- Low memory footprint.
 - Zero library dependencies (we depend on junit for testing and jmp for benchmarking, but the final
-artifact has no dependencies.)
+  artifact has no dependencies)
+- Low memory footprint
 - Compiled matchers are thread safe.
+- 100% Junit Test Coverage
+- Published JMH Benchmarks for comparision with regular expressions
 
 ## Usage
 
 As globs don't have any capture syntax (unlike regex) so the usage is even easier
-than regex.  The default compile uses '*' for the match anything character, '?' 
+than regex.  The default compile uses `*` for the match anything character, `?` 
 for the match one character, is case sensitive and handles escaping.
 
 ```
@@ -41,7 +48,7 @@ if (m.matches(str)) { ... }
 This will match the following `dog horse cat*goat!~` and `dogcat*goat..`
 but not `horse dogcat*goat.` and not `dog catgoat!/`.
 
-We can also change the glob characters so closer resembles SQL LIKE syntax.
+We can also change the glob characters so uses SQL LIKE syntax.
 
 ```
 MatchingEngine m = GlobPattern.compile("dog%cat\%goat_", '%', '_', GlobPattern.HANDLE_ESCAPES);
@@ -88,15 +95,16 @@ Benchmark1.stringCompare                             thrpt   10       211.104 ±
 Benchmark1.stringCompareCaseInsensitive              thrpt   10       126.214 ±      5.041   ops/s
 ```
 
-For basic comparision the glob-library is a bit slower than a String.equals and a bit faster for a 
+For basic comparision the glob-library is slightly slower than a String.equals and slightly faster for a 
 String.equalsIgnoreCase.
 
 ## Implementation Details
 
-- Glob matching is non-greedy.
-- Automatic optimization uses a string comparision if no globs are found in the pattern.
+- Glob matching is non-greedy
+- Multiple glob patterns are folded into one at compile time
+- Automatic optimization uses a string comparision if no globs are found in the pattern
 - Automatic optimization for other common patterns ('\*foo', 'foo\*', '\*foo\*', '\*', '')
-- Heavily weighted towards front loading work to the pattern compiler.
+- Weighted towards front loading work to the pattern compiler
 
 ## Unit Tests
 
@@ -107,7 +115,7 @@ String.equalsIgnoreCase.
 ## Notes
 
 Effort has been made to avoid recursion, nested loops and generics,
-all of which can have small performance impacts.  I've also specifically
-avoided using external libraries (which is also why it is written in
+all of which can have small performance impacts.  Effort has also been made to 
+avoid using external libraries (which is also why the library is written in
 java and not kotlin) so as to minimize dependency conflicts with other
 libraries.

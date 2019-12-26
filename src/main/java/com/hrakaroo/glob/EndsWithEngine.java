@@ -1,9 +1,9 @@
 package com.hrakaroo.glob;
 
 /**
- * Similar to the StartsWithEngine this one is for the strings where the wildcard only exists at the start of the
- * pattern like '%foobar'.  For this we can start at the end of the pattern and character strings and walk
- * backwards.  If we reach the front of the pattern (minus one for the wildcard) they match.
+ * Similar to the {@link StartsWithEngine} this one is for the strings where the wildcard only exists at the
+ * start of the pattern like '%foobar'.  For this we can start at the end of the pattern and character strings
+ * and walk backwards.  If we reach the front of the pattern (minus one for the wildcard) they match.
  *
  *  @author Joshua Gerth
  */
