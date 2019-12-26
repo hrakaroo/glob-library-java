@@ -36,7 +36,7 @@ are no where near as expressive as full regular expressions.
 
 ## Usage
 
-As globs don't have any capture syntax (unlike regex) so the usage is even easier
+Globs do not have any capture syntax (unlike regex) so the usage is even easier
 than regex.  The default compile uses `*` for the match anything character, `?` 
 for the match one character, is case sensitive and handles escaping.
 
