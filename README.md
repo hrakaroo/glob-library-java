@@ -21,7 +21,7 @@ A glob is a very basic type of pattern matching where you use a single
 character to say "match anything or nothing".  The Unix command line
 supports this by using a `*` and SQL uses a `%`.  Single character 
 matches are also supported using `?` and `_` respectively.  Glob patterns
-are no where near as expressive as expressive as full regular expressions.
+are no where near as expressive as full regular expressions.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Glob_(programming)) has more information.
 
