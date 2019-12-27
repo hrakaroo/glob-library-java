@@ -27,7 +27,7 @@ are no where near as expressive as full regular expressions.
 
 ## Key Features
 
-- Zero library dependencies (we depend on junit for testing and jmp for benchmarking, but the final
+- Zero library dependencies (we depend on junit for testing and jmh for benchmarking, but the final
   artifact has no dependencies)
 - Low memory footprint
 - Compiled matchers are thread safe.
