@@ -36,6 +36,11 @@ are no where near as expressive as full regular expressions.
 
 ## Usage
 
+Add as dependency:
+```
+implementation 'com.hrakaroo:glob:0.9.0'
+```
+
 Globs do not have any capture syntax (unlike regex) so the usage is even easier
 than regex.  The default compile uses `*` for the match anything character, `?` 
 for the match one character, is case sensitive and handles escaping.
