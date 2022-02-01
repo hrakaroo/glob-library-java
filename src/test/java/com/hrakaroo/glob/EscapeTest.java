@@ -35,4 +35,13 @@ public class EscapeTest {
         Assertions.assertThrows(RuntimeException.class, () -> GlobPattern.compile(pattern, '%', '_', GlobPattern.CASE_INSENSITIVE | GlobPattern.HANDLE_ESCAPES));
     }
 
+    @Test
+    public void testEscapeAll() {
+        String pattern = "\\\\\\%_\\_";
+        MatchingEngine matchingEngine = GlobPattern.compile(pattern, '%', '_', GlobPattern.ESCAPE_ALL);
+        assert (matchingEngine.matches("\\%x_"));
+        assert (!matchingEngine.matches("\\%xy"));
+        assert (!matchingEngine.matches("\\zx_"));
+    }
+
 }

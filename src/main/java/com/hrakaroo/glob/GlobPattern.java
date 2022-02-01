@@ -58,6 +58,11 @@ public class GlobPattern {
      */
     public static final int HANDLE_ESCAPES = 0b000010;
 
+    /**
+     * Instructs the compiler to treat any character after a '\' as an exact match on the character.
+     * This flag overrides HANDLE_ESCAPES.
+     */
+    public static final int ESCAPE_ALL = 0b000100;
 
     /**
      * Package private constructor as this class contains only static methods.
@@ -100,6 +105,7 @@ public class GlobPattern {
 
         boolean caseInsensitive = has(flags, CASE_INSENSITIVE);
         boolean handleEscapes = has(flags, HANDLE_ESCAPES);
+        boolean escapeAll = has(flags, ESCAPE_ALL);
 
         // Reject null patterns
         if (globPattern == null) {
@@ -156,7 +162,7 @@ public class GlobPattern {
             char upperC = upperCaseRaw[i];
 
             // Handle escaping
-            if (handleEscapes && lowerC == '\\' && !inEscape) {
+            if ((handleEscapes || escapeAll) && lowerC == '\\' && !inEscape) {
                 // Mark the flag and eat the escape
                 inEscape = true;
                 continue;
@@ -184,44 +190,46 @@ public class GlobPattern {
                     matchOne[index] = true;
                 }
             } else if (inEscape) {
-                switch (lowerC) {
-                    case 'r':
-                        // Return
-                        lowerC = upperC = '\r';
-                        break;
-                    case 'n':
-                        // New Line
-                        lowerC = upperC = '\n';
-                        break;
-                    case 't':
-                        // Tab
-                        lowerC = upperC = '\t';
-                        break;
-                    case '\\':
-                        // Backslash
-                        lowerC = upperC = '\\';
-                        break;
-                    case 'u':
-                        // Unicode
-                        if (i + 4 < lengthRaw) {
-                            String s = new String(lowerCaseRaw, i+1, 4);
-
-                            // Try to convert it
-                            try {
-                                char u = (char) Integer.parseInt(s, 16);
-                                upperC = Character.toUpperCase(u);
-                                lowerC = Character.toLowerCase(u);
-                            } catch (NumberFormatException e) {
-                                throw new RuntimeException("Bad Unicode character: " + s);
-                            }
-                            // Move i ahead 4 for the characters we ate
-                            i += 4;
+                if (!escapeAll) {
+                    switch (lowerC) {
+                        case 'r':
+                            // Return
+                            lowerC = upperC = '\r';
                             break;
-                        } else {
-                            throw new RuntimeException("Bad Unicode char at end of input");
-                        }
-                    default:
-                        throw new RuntimeException("Unknown escape sequence : \\" + lowerC);
+                        case 'n':
+                            // New Line
+                            lowerC = upperC = '\n';
+                            break;
+                        case 't':
+                            // Tab
+                            lowerC = upperC = '\t';
+                            break;
+                        case '\\':
+                            // Backslash
+                            lowerC = upperC = '\\';
+                            break;
+                        case 'u':
+                            // Unicode
+                            if (i + 4 < lengthRaw) {
+                                String s = new String(lowerCaseRaw, i + 1, 4);
+
+                                // Try to convert it
+                                try {
+                                    char u = (char) Integer.parseInt(s, 16);
+                                    upperC = Character.toUpperCase(u);
+                                    lowerC = Character.toLowerCase(u);
+                                } catch (NumberFormatException e) {
+                                    throw new RuntimeException("Bad Unicode character: " + s);
+                                }
+                                // Move i ahead 4 for the characters we ate
+                                i += 4;
+                                break;
+                            } else {
+                                throw new RuntimeException("Bad Unicode char at end of input");
+                            }
+                        default:
+                            throw new RuntimeException("Unknown escape sequence : \\" + lowerC);
+                    }
                 }
             }
 
