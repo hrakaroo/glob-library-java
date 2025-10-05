@@ -309,14 +309,15 @@ This library is ideal for:
 
 ## Comparison with Alternatives
 
-| Feature | glob-library-java | Regex | Apache Commons |
-|---------|------------------|-------|----------------|
-| Performance | ✅ Fast | ⚠️ Can be slow | ⚠️ Converts to regex |
-| Backtracking safety | ✅ Yes | ❌ No | ❌ No |
-| Dependencies | ✅ Zero | ✅ Built-in | ❌ External |
-| Thread-safe | ✅ Yes | ✅ Yes | ✅ Yes |
-| Pattern complexity | ⚠️ Simple globs | ✅ Full regex | ⚠️ Simple globs |
-| Learning curve | ✅ Easy | ❌ Complex | ✅ Easy |
+| Feature | glob-library-java | Java Regex | [Java NIO PathMatcher](https://docs.oracle.com/javase/8/docs/api/java/nio/file/PathMatcher.html) | [Spring AntPathMatcher](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/AntPathMatcher.html) |
+|---------|------------------|-----------|---------------------|----------------------|
+| Performance | ✅ Fast | ⚠️ Can be slow | ⚠️ Converts to regex | ⚠️ More complex |
+| Backtracking safety | ✅ Yes | ❌ No | ❌ No | ✅ Yes |
+| Dependencies | ✅ Zero | ✅ Built-in | ✅ Built-in (Java 7+) | ❌ Spring Framework |
+| Thread-safe | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Use case | String matching | Full regex | File paths | URL/Path patterns |
+| Pattern complexity | ⚠️ Simple globs | ✅ Full regex | ⚠️ Globs/regex | ⚠️ Ant-style |
+| Learning curve | ✅ Easy | ❌ Complex | ✅ Easy | ✅ Easy |
 
 ## License
 
